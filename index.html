@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UpPack</title>
+<style>
+:root{--o:#FF4500;--od:#D63A00;--bg:#F3F5F8;--tx:#1f2430;--mu:#6b7480;--d:#C62828}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+header{background:#fff;border-bottom:3px solid var(--o);display:flex;align-items:center;gap:12px;padding:10px 22px}
+header svg{height:64px;width:auto}
+h1{margin:0;font-size:30px;color:var(--o);line-height:1}
+.tag{color:var(--mu);font-size:13px}
+.sp{flex:1}
+select{font:inherit;padding:7px 10px;border:1px solid #cfd5dc;border-radius:8px;background:#fff}
+main{max-width:860px;margin:0 auto;padding:22px;display:grid;gap:16px}
+.card{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+h2{margin:0 0 8px;font-size:15px}
+.bar{height:12px;background:#E1E5EA;border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--o);transition:width .3s}
+.bar.s{height:5px;margin-top:10px}.bar.s i{background:var(--od);transition:none}
+.mu{color:var(--mu)}
+.chk{display:flex;gap:10px;align-items:center;margin-top:12px;font-weight:700;color:var(--od);cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--o)}
+.drop{border:2px dashed #f5a58a;border-radius:14px;padding:26px;text-align:center;background:#fff7f4;cursor:pointer;font-weight:700;color:var(--od)}
+.drop.on{background:#ffe6dc}
+.hd{display:flex;align-items:center;justify-content:space-between}
+.b{font:inherit;border:0;border-radius:10px;padding:10px 18px;background:#E3E7EB;color:var(--tx);cursor:pointer}
+.b.p{background:var(--o);color:#fff;font-weight:700}.b.p:hover{background:var(--od)}
+.row{display:grid;grid-template-columns:1fr 90px 160px 36px;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid #eef0f3}
+.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nm.fl{color:var(--d)}
+.sz,.dt{color:var(--mu);font-size:13px}
+.x{border:0;background:none;color:var(--mu);font-size:18px;cursor:pointer;border-radius:8px;padding:4px}.x:hover{background:#fde8e8;color:var(--d)}
+.empty{color:var(--mu);text-align:center;padding:22px}
+#st{color:var(--mu);font-size:13px;min-height:18px}
+.md{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.md[hidden]{display:none}
+.dlg{background:#fff;border-radius:14px;max-width:440px;width:100%;overflow:hidden}
+.dh{background:var(--d);color:#fff;font-weight:700;padding:14px 18px}
+.db{padding:14px 18px 0}.db p{margin:0 0 8px}.fn{color:var(--d);font-weight:700;word-break:break-all}
+.db ul{margin:4px 0 0;padding-left:20px}
+.df{display:flex;gap:8px;justify-content:flex-end;padding:16px 18px}
+/* versión celular */
+.mobile header{padding:8px 12px}.mobile header svg{height:48px}.mobile h1{font-size:24px}
+.mobile main{padding:12px;padding-bottom:96px}
+.mobile .drop{display:none}
+.mobile .up{position:fixed;left:12px;right:12px;bottom:12px;padding:17px;font-size:17px;z-index:5;box-shadow:0 4px 14px rgba(214,58,0,.4)}
+.mobile .row{grid-template-columns:1fr 40px;grid-template-areas:"n x" "s x";padding:12px 2px}
+.mobile .nm{grid-area:n;font-size:16px}.mobile .sz{grid-area:s}.mobile .dt{display:none}.mobile .x{grid-area:x;font-size:22px}
+.mobile .dlg .df{flex-direction:column}.mobile .dlg .b{padding:15px}
+</style>
+</head>
+<body>
+<header>
+<svg viewBox="38 30 300 440" aria-label="UpPack">
+<polygon points="188,33 41,195 113,195 113,350 188,350" fill="#FF4500"/>
+<polygon points="188,33 335,195 265,195 265,350 188,350" fill="#D63A00"/>
+<rect x="127" y="170" width="61" height="88" fill="#C27C50"/><rect x="188" y="170" width="62" height="88" fill="#A9663F"/>
+<rect x="120" y="142" width="68" height="28" fill="#7B5338"/><rect x="188" y="142" width="70" height="28" fill="#6A4630"/>
+<rect x="148" y="172" width="80" height="60" fill="#F4F4F4"/>
+<g fill="#1E9BE8"><circle cx="170" cy="213" r="10"/><circle cx="208" cy="213" r="10"/><rect x="170" y="203" width="38" height="20"/><circle cx="178" cy="200" r="14"/><circle cx="198" cy="203" r="12"/></g>
+<g fill="#9B9DA0"><rect x="128" y="362" width="20" height="74"/><rect x="176" y="362" width="20" height="74"/><rect x="226" y="362" width="20" height="74"/></g>
+<g fill="#8A8C8F"><rect x="131" y="444" width="14" height="21"/><rect x="179" y="444" width="14" height="21"/><rect x="229" y="444" width="14" height="21"/></g>
+</svg>
+<div><h1>UpPack</h1><div class="tag" data-t="tagline"></div></div>
+<div class="sp"></div>
+<select id="lg" aria-label="Language"></select>
+</header>
+<main>
+<section class="card">
+<h2 data-t="storage"></h2>
+<div class="bar"><i id="sb"></i></div>
+<div class="mu" id="sl" style="margin-top:6px"></div>
+<label class="chk"><input type="checkbox" id="f19"><span data-t="free19"></span></label>
+</section>
+<div class="drop" id="dz"><span data-t="upload"></span></div>
+<section class="card">
+<div class="hd"><h2 data-t="files" style="margin:0"></h2><button class="b p up" id="up"><span>⬆ </span><span data-t="upload"></span></button></div>
+<div class="bar s"><i id="pg"></i></div>
+<div id="list"></div>
+</section>
+<div id="st"></div>
+<input type="file" id="fi" multiple hidden>
+</main>
+<div class="md" id="md" hidden><div class="dlg">
+<div class="dh">⚠ <span data-t="warn_title"></span></div>
+<div class="db"><p data-t="warn_msg"></p><p class="fn" id="mfn"></p><p class="mu"><span data-t="reason"></span>:</p><ul id="mrs"></ul></div>
+<div class="df"><button class="b p" id="bA" data-t="accept"></button><button class="b" id="bS" data-t="save_anyway"></button></div>
+</div></div>
+<script>
+const TR={"es":{"tagline":"Tu nube segura","upload":"Subir archivos","files":"Mis archivos","storage":"Almacenamiento","free19":"Liberar 19GB gratis","download":"Descargar","delete":"Eliminar","language":"Idioma","warn_title":"¡Archivo peligroso o ilegal!","warn_msg":"Este archivo es peligroso o ilegal.","reason":"Motivo","accept":"Aceptar","save_anyway":"Guardar de todos modos","saved":"Guardado y protegido","no_space":"No hay espacio suficiente","empty":"Aún no hay archivos","name":"Nombre","size":"Tamaño","date":"Fecha","select_first":"Selecciona un archivo primero","confirm_delete":"¿Eliminar de la nube? (tu PC no se modifica)","blocked":"Bloqueado","r_exec":"Ejecutable o script potencialmente peligroso","r_sig":"Firma de malware conocida","r_pirate":"Crack/keygen (software ilegal)"},"en":{"tagline":"Your secure cloud","upload":"Upload files","files":"My files","storage":"Storage","free19":"Unlock 19GB free","download":"Download","delete":"Delete","language":"Language","warn_title":"Dangerous or illegal file!","warn_msg":"This file is dangerous or illegal.","reason":"Reason","accept":"Accept","save_anyway":"Save anyway","saved":"Saved and protected","no_space":"Not enough space","empty":"No files yet","name":"Name","size":"Size","date":"Date","select_first":"Select a file first","confirm_delete":"Delete from the cloud? (your PC is not touched)","blocked":"Blocked","r_exec":"Potentially dangerous executable or script","r_sig":"Known malware signature","r_pirate":"Crack/keygen (illegal software)"},"pt":{"tagline":"Sua nuvem segura","upload":"Enviar arquivos","files":"Meus arquivos","storage":"Armazenamento","free19":"Liberar 19GB grátis","download":"Baixar","delete":"Excluir","language":"Idioma","warn_title":"Arquivo perigoso ou ilegal!","warn_msg":"Este arquivo é perigoso ou ilegal.","reason":"Motivo","accept":"Aceitar","save_anyway":"Salvar mesmo assim","saved":"Salvo e protegido","no_space":"Espaço insuficiente","empty":"Nenhum arquivo ainda","name":"Nome","size":"Tamanho","date":"Data","select_first":"Selecione um arquivo primeiro","confirm_delete":"Excluir da nuvem? (seu PC não é alterado)","blocked":"Bloqueado","r_exec":"Executável ou script potencialmente perigoso","r_sig":"Assinatura de malware conhecida","r_pirate":"Crack/keygen (software ilegal)"},"fr":{"tagline":"Votre cloud sécurisé","upload":"Téléverser des fichiers","files":"Mes fichiers","storage":"Stockage","free19":"Débloquer 19 Go gratuits","download":"Télécharger","delete":"Supprimer","language":"Langue","warn_title":"Fichier dangereux ou illégal !","warn_msg":"Ce fichier est dangereux ou illégal.","reason":"Motif","accept":"Accepter","save_anyway":"Enregistrer quand même","saved":"Enregistré et protégé","no_space":"Espace insuffisant","empty":"Aucun fichier pour l'instant","name":"Nom","size":"Taille","date":"Date","select_first":"Sélectionnez d'abord un fichier","confirm_delete":"Supprimer du cloud ? (votre PC n'est pas modifié)","blocked":"Bloqué","r_exec":"Exécutable ou script potentiellement dangereux","r_sig":"Signature de malware connue","r_pirate":"Crack/keygen (logiciel illégal)"},"de":{"tagline":"Deine sichere Cloud","upload":"Dateien hochladen","files":"Meine Dateien","storage":"Speicher","free19":"19 GB gratis freischalten","download":"Herunterladen","delete":"Löschen","language":"Sprache","warn_title":"Gefährliche oder illegale Datei!","warn_msg":"Diese Datei ist gefährlich oder illegal.","reason":"Grund","accept":"Akzeptieren","save_anyway":"Trotzdem speichern","saved":"Gespeichert und geschützt","no_space":"Nicht genug Speicherplatz","empty":"Noch keine Dateien","name":"Name","size":"Größe","date":"Datum","select_first":"Wähle zuerst eine Datei","confirm_delete":"Aus der Cloud löschen? (dein PC bleibt unberührt)","blocked":"Blockiert","r_exec":"Potenziell gefährliche ausführbare Datei oder Skript","r_sig":"Bekannte Malware-Signatur","r_pirate":"Crack/Keygen (illegale Software)"},"it":{"tagline":"Il tuo cloud sicuro","upload":"Carica file","files":"I miei file","storage":"Spazio","free19":"Sblocca 19GB gratis","download":"Scarica","delete":"Elimina","language":"Lingua","warn_title":"File pericoloso o illegale!","warn_msg":"Questo file è pericoloso o illegale.","reason":"Motivo","accept":"Accetta","save_anyway":"Salva comunque","saved":"Salvato e protetto","no_space":"Spazio insufficiente","empty":"Ancora nessun file","name":"Nome","size":"Dimensione","date":"Data","select_first":"Seleziona prima un file","confirm_delete":"Eliminare dal cloud? (il tuo PC non viene toccato)","blocked":"Bloccato","r_exec":"Eseguibile o script potenzialmente pericoloso","r_sig":"Firma di malware nota","r_pirate":"Crack/keygen (software illegale)"},"nl":{"tagline":"Je veilige cloud","upload":"Bestanden uploaden","files":"Mijn bestanden","storage":"Opslag","free19":"19GB gratis vrijgeven","download":"Downloaden","delete":"Verwijderen","language":"Taal","warn_title":"Gevaarlijk of illegaal bestand!","warn_msg":"Dit bestand is gevaarlijk of illegaal.","reason":"Reden","accept":"Accepteren","save_anyway":"Toch opslaan","saved":"Opgeslagen en beschermd","no_space":"Onvoldoende ruimte","empty":"Nog geen bestanden","name":"Naam","size":"Grootte","date":"Datum","select_first":"Selecteer eerst een bestand","confirm_delete":"Uit de cloud verwijderen? (je pc blijft ongewijzigd)","blocked":"Geblokkeerd","r_exec":"Mogelijk gevaarlijk uitvoerbaar bestand of script","r_sig":"Bekende malwarehandtekening","r_pirate":"Crack/keygen (illegale software)"},"sv":{"tagline":"Ditt säkra moln","upload":"Ladda upp filer","files":"Mina filer","storage":"Lagring","free19":"Lås upp 19 GB gratis","download":"Ladda ner","delete":"Ta bort","language":"Språk","warn_title":"Farlig eller olaglig fil!","warn_msg":"Den här filen är farlig eller olaglig.","reason":"Orsak","accept":"Acceptera","save_anyway":"Spara ändå","saved":"Sparad och skyddad","no_space":"Inte tillräckligt med utrymme","empty":"Inga filer än","name":"Namn","size":"Storlek","date":"Datum","select_first":"Välj en fil först","confirm_delete":"Ta bort från molnet? (din dator påverkas inte)","blocked":"Blockerad","r_exec":"Potentiellt farlig körbar fil eller skript","r_sig":"Känd skadlig kodsignatur","r_pirate":"Crack/keygen (olaglig programvara)"},"pl":{"tagline":"Twoja bezpieczna chmura","upload":"Prześlij pliki","files":"Moje pliki","storage":"Pamięć","free19":"Odblokuj 19 GB za darmo","download":"Pobierz","delete":"Usuń","language":"Język","warn_title":"Plik niebezpieczny lub nielegalny!","warn_msg":"Ten plik jest niebezpieczny lub nielegalny.","reason":"Powód","accept":"Akceptuj","save_anyway":"Zapisz mimo to","saved":"Zapisano i zabezpieczono","no_space":"Za mało miejsca","empty":"Brak plików","name":"Nazwa","size":"Rozmiar","date":"Data","select_first":"Najpierw wybierz plik","confirm_delete":"Usunąć z chmury? (Twój komputer nie zostanie zmieniony)","blocked":"Zablokowano","r_exec":"Potencjalnie niebezpieczny plik wykonywalny lub skrypt","r_sig":"Znana sygnatura złośliwego oprogramowania","r_pirate":"Crack/keygen (nielegalne oprogramowanie)"},"tr":{"tagline":"Güvenli bulutunuz","upload":"Dosya yükle","files":"Dosyalarım","storage":"Depolama","free19":"19GB ücretsiz aç","download":"İndir","delete":"Sil","language":"Dil","warn_title":"Tehlikeli veya yasa dışı dosya!","warn_msg":"Bu dosya tehlikeli veya yasa dışı.","reason":"Neden","accept":"Kabul et","save_anyway":"Yine de kaydet","saved":"Kaydedildi ve korundu","no_space":"Yeterli alan yok","empty":"Henüz dosya yok","name":"Ad","size":"Boyut","date":"Tarih","select_first":"Önce bir dosya seçin","confirm_delete":"Buluttan silinsin mi? (bilgisayarınıza dokunulmaz)","blocked":"Engellendi","r_exec":"Potansiyel olarak tehlikeli çalıştırılabilir dosya veya betik","r_sig":"Bilinen kötü amaçlı yazılım imzası","r_pirate":"Crack/keygen (yasa dışı yazılım)"},"ru":{"tagline":"Ваше безопасное облако","upload":"Загрузить файлы","files":"Мои файлы","storage":"Хранилище","free19":"Получить 19 ГБ бесплатно","download":"Скачать","delete":"Удалить","language":"Язык","warn_title":"Опасный или незаконный файл!","warn_msg":"Этот файл опасен или незаконен.","reason":"Причина","accept":"Принять","save_anyway":"Всё равно сохранить","saved":"Сохранено и защищено","no_space":"Недостаточно места","empty":"Файлов пока нет","name":"Имя","size":"Размер","date":"Дата","select_first":"Сначала выберите файл","confirm_delete":"Удалить из облака? (ваш ПК не затрагивается)","blocked":"Заблокировано","r_exec":"Потенциально опасный исполняемый файл или скрипт","r_sig":"Известная сигнатура вредоносного ПО","r_pirate":"Crack/keygen (нелегальное ПО)"},"uk":{"tagline":"Ваша безпечна хмара","upload":"Вивантажити файли","files":"Мої файли","storage":"Сховище","free19":"Отримати 19 ГБ безкоштовно","download":"Завантажити","delete":"Видалити","language":"Мова","warn_title":"Небезпечний або незаконний файл!","warn_msg":"Цей файл небезпечний або незаконний.","reason":"Причина","accept":"Прийняти","save_anyway":"Усе одно зберегти","saved":"Збережено та захищено","no_space":"Недостатньо місця","empty":"Файлів поки немає","name":"Назва","size":"Розмір","date":"Дата","select_first":"Спочатку виберіть файл","confirm_delete":"Видалити з хмари? (ваш ПК не змінюється)","blocked":"Заблоковано","r_exec":"Потенційно небезпечний виконуваний файл або скрипт","r_sig":"Відомий підпис шкідливого ПЗ","r_pirate":"Crack/keygen (нелегальне ПЗ)"},"ar":{"tagline":"سحابتك الآمنة","upload":"رفع الملفات","files":"ملفاتي","storage":"التخزين","free19":"احصل على 19GB مجانًا","download":"تنزيل","delete":"حذف","language":"اللغة","warn_title":"ملف خطير أو غير قانوني!","warn_msg":"هذا الملف خطير أو غير قانوني.","reason":"السبب","accept":"قبول","save_anyway":"احفظ على أي حال","saved":"تم الحفظ والحماية","no_space":"لا توجد مساحة كافية","empty":"لا توجد ملفات بعد","name":"الاسم","size":"الحجم","date":"التاريخ","select_first":"اختر ملفًا أولاً","confirm_delete":"هل تريد الحذف من السحابة؟ (جهازك لن يتأثر)","blocked":"محظور","r_exec":"ملف تنفيذي أو سكربت قد يكون خطيرًا","r_sig":"توقيع برنامج ضار معروف","r_pirate":"Crack/keygen (برمجيات غير قانونية)"},"he":{"tagline":"הענן המאובטח שלך","upload":"העלאת קבצים","files":"הקבצים שלי","storage":"אחסון","free19":"קבל 19GB בחינם","download":"הורדה","delete":"מחיקה","language":"שפה","warn_title":"קובץ מסוכן או לא חוקי!","warn_msg":"הקובץ הזה מסוכן או לא חוקי.","reason":"סיבה","accept":"אישור","save_anyway":"שמור בכל זאת","saved":"נשמר ומוגן","no_space":"אין מספיק מקום","empty":"אין קבצים עדיין","name":"שם","size":"גודל","date":"תאריך","select_first":"בחר קובץ קודם","confirm_delete":"למחוק מהענן? (המחשב שלך לא ישתנה)","blocked":"נחסם","r_exec":"קובץ הפעלה או סקריפט שעלול להיות מסוכן","r_sig":"חתימת תוכנה זדונית ידועה","r_pirate":"Crack/keygen (תוכנה לא חוקית)"},"hi":{"tagline":"आपका सुरक्षित क्लाउड","upload":"फ़ाइलें अपलोड करें","files":"मेरी फ़ाइलें","storage":"स्टोरेज","free19":"19GB मुफ़्त पाएँ","download":"डाउनलोड","delete":"हटाएँ","language":"भाषा","warn_title":"खतरनाक या अवैध फ़ाइल!","warn_msg":"यह फ़ाइल खतरनाक या अवैध है।","reason":"कारण","accept":"स्वीकार करें","save_anyway":"फिर भी सेव करें","saved":"सेव और सुरक्षित","no_space":"पर्याप्त जगह नहीं है","empty":"अभी कोई फ़ाइल नहीं","name":"नाम","size":"आकार","date":"तारीख़","select_first":"पहले एक फ़ाइल चुनें","confirm_delete":"क्लाउड से हटाएँ? (आपके पीसी को नहीं छुआ जाएगा)","blocked":"ब्लॉक किया गया","r_exec":"संभावित रूप से खतरनाक एक्ज़ीक्यूटेबल या स्क्रिप्ट","r_sig":"ज्ञात मैलवेयर सिग्नेचर","r_pirate":"Crack/keygen (अवैध सॉफ़्टवेयर)"},"bn":{"tagline":"আপনার নিরাপদ ক্লাউড","upload":"ফাইল আপলোড করুন","files":"আমার ফাইল","storage":"স্টোরেজ","free19":"19GB বিনামূল্যে নিন","download":"ডাউনলোড","delete":"মুছুন","language":"ভাষা","warn_title":"বিপজ্জনক বা অবৈধ ফাইল!","warn_msg":"এই ফাইলটি বিপজ্জনক বা অবৈধ।","reason":"কারণ","accept":"গ্রহণ করুন","save_anyway":"তবুও সংরক্ষণ করুন","saved":"সংরক্ষিত ও সুরক্ষিত","no_space":"পর্যাপ্ত জায়গা নেই","empty":"এখনও কোনো ফাইল নেই","name":"নাম","size":"আকার","date":"তারিখ","select_first":"আগে একটি ফাইল নির্বাচন করুন","confirm_delete":"ক্লাউড থেকে মুছবেন? (আপনার পিসিতে হাত দেওয়া হবে না)","blocked":"ব্লক করা হয়েছে","r_exec":"সম্ভাব্য বিপজ্জনক এক্সিকিউটেবল বা স্ক্রিপ্ট","r_sig":"পরিচিত ম্যালওয়্যার সিগনেচার","r_pirate":"Crack/keygen (অবৈধ সফটওয়্যার)"},"zh":{"tagline":"您的安全云盘","upload":"上传文件","files":"我的文件","storage":"存储空间","free19":"免费解锁 19GB","download":"下载","delete":"删除","language":"语言","warn_title":"危险或非法文件！","warn_msg":"此文件危险或非法。","reason":"原因","accept":"确定","save_anyway":"仍然保存","saved":"已保存并受保护","no_space":"空间不足","empty":"暂无文件","name":"名称","size":"大小","date":"日期","select_first":"请先选择一个文件","confirm_delete":"从云端删除？（不会改动您的电脑）","blocked":"已拦截","r_exec":"可能有危险的可执行文件或脚本","r_sig":"已知恶意软件特征","r_pirate":"Crack/keygen（非法软件）"},"ja":{"tagline":"安全なあなたのクラウド","upload":"ファイルをアップロード","files":"マイファイル","storage":"ストレージ","free19":"19GBを無料で解放","download":"ダウンロード","delete":"削除","language":"言語","warn_title":"危険または違法なファイル！","warn_msg":"このファイルは危険または違法です。","reason":"理由","accept":"了解","save_anyway":"それでも保存","saved":"保存して保護しました","no_space":"空き容量が足りません","empty":"まだファイルがありません","name":"名前","size":"サイズ","date":"日付","select_first":"先にファイルを選択してください","confirm_delete":"クラウドから削除しますか？（PCは変更されません）","blocked":"ブロックしました","r_exec":"危険な可能性のある実行ファイルまたはスクリプト","r_sig":"既知のマルウェアシグネチャ","r_pirate":"Crack/keygen（違法ソフト）"},"ko":{"tagline":"안전한 나의 클라우드","upload":"파일 업로드","files":"내 파일","storage":"저장 공간","free19":"19GB 무료로 받기","download":"다운로드","delete":"삭제","language":"언어","warn_title":"위험하거나 불법적인 파일!","warn_msg":"이 파일은 위험하거나 불법입니다.","reason":"사유","accept":"확인","save_anyway":"그래도 저장","saved":"저장 및 보호됨","no_space":"공간이 부족합니다","empty":"아직 파일이 없습니다","name":"이름","size":"크기","date":"날짜","select_first":"먼저 파일을 선택하세요","confirm_delete":"클라우드에서 삭제할까요? (PC는 변경되지 않습니다)","blocked":"차단됨","r_exec":"위험할 수 있는 실행 파일 또는 스크립트","r_sig":"알려진 악성코드 시그니처","r_pirate":"Crack/keygen (불법 소프트웨어)"},"vi":{"tagline":"Đám mây an toàn của bạn","upload":"Tải tệp lên","files":"Tệp của tôi","storage":"Dung lượng","free19":"Mở khóa 19GB miễn phí","download":"Tải xuống","delete":"Xóa","language":"Ngôn ngữ","warn_title":"Tệp nguy hiểm hoặc bất hợp pháp!","warn_msg":"Tệp này nguy hiểm hoặc bất hợp pháp.","reason":"Lý do","accept":"Chấp nhận","save_anyway":"Vẫn lưu","saved":"Đã lưu và bảo vệ","no_space":"Không đủ dung lượng","empty":"Chưa có tệp nào","name":"Tên","size":"Kích thước","date":"Ngày","select_first":"Hãy chọn một tệp trước","confirm_delete":"Xóa khỏi đám mây? (máy tính của bạn không bị ảnh hưởng)","blocked":"Đã chặn","r_exec":"Tệp thực thi hoặc tập lệnh có thể nguy hiểm","r_sig":"Chữ ký mã độc đã biết","r_pirate":"Crack/keygen (phần mềm bất hợp pháp)"},"th":{"tagline":"คลาวด์ปลอดภัยของคุณ","upload":"อัปโหลดไฟล์","files":"ไฟล์ของฉัน","storage":"พื้นที่จัดเก็บ","free19":"ปลดล็อก 19GB ฟรี","download":"ดาวน์โหลด","delete":"ลบ","language":"ภาษา","warn_title":"ไฟล์อันตรายหรือผิดกฎหมาย!","warn_msg":"ไฟล์นี้อันตรายหรือผิดกฎหมาย","reason":"เหตุผล","accept":"ยอมรับ","save_anyway":"บันทึกอยู่ดี","saved":"บันทึกและป้องกันแล้ว","no_space":"พื้นที่ไม่เพียงพอ","empty":"ยังไม่มีไฟล์","name":"ชื่อ","size":"ขนาด","date":"วันที่","select_first":"กรุณาเลือกไฟล์ก่อน","confirm_delete":"ลบออกจากคลาวด์? (พีซีของคุณจะไม่ถูกแตะต้อง)","blocked":"ถูกบล็อก","r_exec":"ไฟล์ปฏิบัติการหรือสคริปต์ที่อาจเป็นอันตราย","r_sig":"ลายเซ็นมัลแวร์ที่รู้จัก","r_pirate":"Crack/keygen (ซอฟต์แวร์ผิดกฎหมาย)"},"id":{"tagline":"Cloud aman Anda","upload":"Unggah file","files":"File saya","storage":"Penyimpanan","free19":"Buka 19GB gratis","download":"Unduh","delete":"Hapus","language":"Bahasa","warn_title":"File berbahaya atau ilegal!","warn_msg":"File ini berbahaya atau ilegal.","reason":"Alasan","accept":"Terima","save_anyway":"Tetap simpan","saved":"Tersimpan dan terlindungi","no_space":"Ruang tidak cukup","empty":"Belum ada file","name":"Nama","size":"Ukuran","date":"Tanggal","select_first":"Pilih file terlebih dahulu","confirm_delete":"Hapus dari cloud? (PC Anda tidak diubah)","blocked":"Diblokir","r_exec":"Executable atau skrip yang berpotensi berbahaya","r_sig":"Tanda tangan malware yang dikenal","r_pirate":"Crack/keygen (perangkat lunak ilegal)"},"ms":{"tagline":"Awan selamat anda","upload":"Muat naik fail","files":"Fail saya","storage":"Storan","free19":"Buka 19GB percuma","download":"Muat turun","delete":"Padam","language":"Bahasa","warn_title":"Fail berbahaya atau menyalahi undang-undang!","warn_msg":"Fail ini berbahaya atau menyalahi undang-undang.","reason":"Sebab","accept":"Terima","save_anyway":"Simpan juga","saved":"Disimpan dan dilindungi","no_space":"Ruang tidak mencukupi","empty":"Belum ada fail","name":"Nama","size":"Saiz","date":"Tarikh","select_first":"Pilih fail dahulu","confirm_delete":"Padam daripada awan? (PC anda tidak diubah)","blocked":"Disekat","r_exec":"Fail boleh laku atau skrip yang berpotensi berbahaya","r_sig":"Tandatangan perisian hasad yang diketahui","r_pirate":"Crack/keygen (perisian menyalahi undang-undang)"},"fil":{"tagline":"Ang ligtas mong cloud","upload":"Mag-upload ng mga file","files":"Aking mga file","storage":"Imbakan","free19":"I-unlock ang 19GB nang libre","download":"I-download","delete":"Burahin","language":"Wika","warn_title":"Mapanganib o ilegal na file!","warn_msg":"Mapanganib o ilegal ang file na ito.","reason":"Dahilan","accept":"Tanggapin","save_anyway":"I-save pa rin","saved":"Na-save at protektado","no_space":"Kulang ang espasyo","empty":"Wala pang mga file","name":"Pangalan","size":"Laki","date":"Petsa","select_first":"Pumili muna ng file","confirm_delete":"Burahin sa cloud? (hindi gagalawin ang iyong PC)","blocked":"Na-block","r_exec":"Posibleng mapanganib na executable o script","r_sig":"Kilalang lagda ng malware","r_pirate":"Crack/keygen (ilegal na software)"},"cs":{"tagline":"Váš bezpečný cloud","upload":"Nahrát soubory","files":"Moje soubory","storage":"Úložiště","free19":"Odemknout 19 GB zdarma","download":"Stáhnout","delete":"Smazat","language":"Jazyk","warn_title":"Nebezpečný nebo nelegální soubor!","warn_msg":"Tento soubor je nebezpečný nebo nelegální.","reason":"Důvod","accept":"Přijmout","save_anyway":"Přesto uložit","saved":"Uloženo a chráněno","no_space":"Nedostatek místa","empty":"Zatím žádné soubory","name":"Název","size":"Velikost","date":"Datum","select_first":"Nejprve vyberte soubor","confirm_delete":"Smazat z cloudu? (váš počítač se nezmění)","blocked":"Zablokováno","r_exec":"Potenciálně nebezpečný spustitelný soubor nebo skript","r_sig":"Známý podpis malwaru","r_pirate":"Crack/keygen (nelegální software)"},"ro":{"tagline":"Norul tău sigur","upload":"Încarcă fișiere","files":"Fișierele mele","storage":"Stocare","free19":"Deblochează 19 GB gratis","download":"Descarcă","delete":"Șterge","language":"Limbă","warn_title":"Fișier periculos sau ilegal!","warn_msg":"Acest fișier este periculos sau ilegal.","reason":"Motiv","accept":"Acceptă","save_anyway":"Salvează oricum","saved":"Salvat și protejat","no_space":"Spațiu insuficient","empty":"Încă nu există fișiere","name":"Nume","size":"Dimensiune","date":"Dată","select_first":"Selectează mai întâi un fișier","confirm_delete":"Ștergi din cloud? (PC-ul tău nu este modificat)","blocked":"Blocat","r_exec":"Executabil sau script potențial periculos","r_sig":"Semnătură de malware cunoscută","r_pirate":"Crack/keygen (software ilegal)"},"el":{"tagline":"Το ασφαλές σύννεφο σας","upload":"Ανέβασμα αρχείων","files":"Τα αρχεία μου","storage":"Αποθήκευση","free19":"Ξεκλειδώστε 19GB δωρεάν","download":"Λήψη","delete":"Διαγραφή","language":"Γλώσσα","warn_title":"Επικίνδυνο ή παράνομο αρχείο!","warn_msg":"Αυτό το αρχείο είναι επικίνδυνο ή παράνομο.","reason":"Αιτία","accept":"Αποδοχή","save_anyway":"Αποθήκευση ούτως ή άλλως","saved":"Αποθηκεύτηκε και προστατεύτηκε","no_space":"Δεν υπάρχει αρκετός χώρος","empty":"Δεν υπάρχουν αρχεία ακόμη","name":"Όνομα","size":"Μέγεθος","date":"Ημερομηνία","select_first":"Επιλέξτε πρώτα ένα αρχείο","confirm_delete":"Διαγραφή από το σύννεφο; (ο υπολογιστής σας δεν θα επηρεαστεί)","blocked":"Αποκλείστηκε","r_exec":"Δυνητικά επικίνδυνο εκτελέσιμο ή σενάριο","r_sig":"Γνωστή υπογραφή κακόβουλου λογισμικού","r_pirate":"Crack/keygen (παράνομο λογισμικό)"},"hu":{"tagline":"Biztonságos felhőd","upload":"Fájlok feltöltése","files":"Fájljaim","storage":"Tárhely","free19":"19 GB ingyen feloldása","download":"Letöltés","delete":"Törlés","language":"Nyelv","warn_title":"Veszélyes vagy illegális fájl!","warn_msg":"Ez a fájl veszélyes vagy illegális.","reason":"Ok","accept":"Elfogadom","save_anyway":"Mentés mégis","saved":"Mentve és védve","no_space":"Nincs elég hely","empty":"Még nincsenek fájlok","name":"Név","size":"Méret","date":"Dátum","select_first":"Előbb válassz egy fájlt","confirm_delete":"Törlöd a felhőből? (a számítógéped nem változik)","blocked":"Blokkolva","r_exec":"Potenciálisan veszélyes futtatható fájl vagy szkript","r_sig":"Ismert kártevő-aláírás","r_pirate":"Crack/keygen (illegális szoftver)"},"fi":{"tagline":"Turvallinen pilvesi","upload":"Lähetä tiedostoja","files":"Omat tiedostot","storage":"Tallennustila","free19":"Avaa 19 Gt ilmaiseksi","download":"Lataa koneelle","delete":"Poista","language":"Kieli","warn_title":"Vaarallinen tai laiton tiedosto!","warn_msg":"Tämä tiedosto on vaarallinen tai laiton.","reason":"Syy","accept":"Hyväksy","save_anyway":"Tallenna silti","saved":"Tallennettu ja suojattu","no_space":"Tallennustila ei riitä","empty":"Ei vielä tiedostoja","name":"Nimi","size":"Koko","date":"Päivämäärä","select_first":"Valitse ensin tiedosto","confirm_delete":"Poistetaanko pilvestä? (tietokonettasi ei muuteta)","blocked":"Estetty","r_exec":"Mahdollisesti vaarallinen suoritettava tiedosto tai komentosarja","r_sig":"Tunnettu haittaohjelman tunniste","r_pirate":"Crack/keygen (laiton ohjelmisto)"},"da":{"tagline":"Din sikre sky","upload":"Upload filer","files":"Mine filer","storage":"Lager","free19":"Lås 19 GB op gratis","download":"Download","delete":"Slet","language":"Sprog","warn_title":"Farlig eller ulovlig fil!","warn_msg":"Denne fil er farlig eller ulovlig.","reason":"Årsag","accept":"Accepter","save_anyway":"Gem alligevel","saved":"Gemt og beskyttet","no_space":"Ikke nok plads","empty":"Ingen filer endnu","name":"Navn","size":"Størrelse","date":"Dato","select_first":"Vælg en fil først","confirm_delete":"Slet fra skyen? (din pc berøres ikke)","blocked":"Blokeret","r_exec":"Potentielt farlig eksekverbar fil eller script","r_sig":"Kendt malware-signatur","r_pirate":"Crack/keygen (ulovlig software)"}};
+const LANGS=[["es","Español"],["en","English"],["pt","Português"],["fr","Français"],["de","Deutsch"],["it","Italiano"],["nl","Nederlands"],["sv","Svenska"],["pl","Polski"],["tr","Türkçe"],["ru","Русский"],["uk","Українська"],["ar","العربية"],["he","עברית"],["hi","हिन्दी"],["bn","বাংলা"],["zh","中文"],["ja","日本語"],["ko","한국어"],["vi","Tiếng Việt"],["th","ไทย"],["id","Bahasa Indonesia"],["ms","Bahasa Melayu"],["fil","Filipino"],["cs","Čeština"],["ro","Română"],["el","Ελληνικά"],["hu","Magyar"],["fi","Suomi"],["da","Dansk"]];
+const BASE=1024**3,BONUS=19*1024**3;
+const DEXT=new Set(['.exe','.scr','.bat','.cmd','.com','.pif','.vbs','.vbe','.jse','.wsf','.wsh','.hta','.ps1','.msi','.msp','.dll','.sys','.lnk','.reg','.cpl','.gadget']);
+const SIGS=['eicar-standard-antivirus-test-file','mimikatz','-encodedcommand'];
+const PIRATE=/(keygen|key[-_ ]gen|warez|nulled|\bcrack(ed)?\b|activator)/;
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<3){n/=1024;i++}return(i?n.toFixed(1):Math.round(n))+' '+u[i]};
+let S={files:[],free19:false,lang:null},busy=false;
+try{Object.assign(S,JSON.parse(localStorage.getItem('uppack')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('uppack',JSON.stringify(S))}catch(e){}};
+if(!S.lang||!TR[S.lang]){const n=(navigator.language||'es').toLowerCase();const c=/^(fil|tl)/.test(n)?'fil':n.slice(0,2);S.lang=TR[c]?c:'es'}
+const t=k=>(TR[S.lang]&&TR[S.lang][k])||TR.en[k];
+const used=()=>S.files.reduce((a,f)=>a+f.size,0),quota=()=>BASE+(S.free19?BONUS:0);
+const say=m=>{$('#st').textContent=m};
+
+function isMobile(){return /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent)||matchMedia('(max-width:700px)').matches}
+function layout(){document.body.classList.toggle('mobile',isMobile())}
+addEventListener('resize',layout);layout();
+
+function applyLang(){
+  document.documentElement.lang=S.lang;
+  document.documentElement.dir=(S.lang==='ar'||S.lang==='he')?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));
+  $('#lg').value=S.lang;render();
+}
+function render(){
+  const u=used(),q=quota();
+  $('#sb').style.width=Math.min(100,100*u/q)+'%';
+  $('#sl').textContent=fmt(u)+' / '+fmt(q)+'  ('+(100*u/q).toFixed(1)+'%)';
+  $('#f19').checked=S.free19;
+  const L=$('#list');
+  if(!S.files.length){L.innerHTML='<div class="empty">'+esc(t('empty'))+'</div>';return}
+  L.innerHTML=[...S.files].reverse().map(f=>`<div class="row"><div class="nm ${f.flag?'fl':''}">${f.flag?'⚠':'✓'} ${esc(f.name)}</div><div class="sz">${fmt(f.size)}</div><div class="dt">${new Date(f.date).toLocaleString()}</div><button class="x" data-id="${f.id}" title="${esc(t('delete'))}">✕</button></div>`).join('');
+}
+
+/* Escáner heurístico (lee solo los primeros 1 MB; el archivo nunca se modifica) */
+async function scan(f){
+  const n=f.name.toLowerCase(),ext=n.includes('.')?n.slice(n.lastIndexOf('.')):'',r=[];
+  let h=new Uint8Array(0);
+  try{h=new Uint8Array(await f.slice(0,1<<20).arrayBuffer())}catch(e){}
+  const mz=h[0]===0x4d&&h[1]===0x5a,elf=h[0]===0x7f&&h[1]===0x45&&h[2]===0x4c&&h[3]===0x46;
+  if(DEXT.has(ext)||mz||elf)r.push('r_exec');
+  const txt=new TextDecoder('latin1').decode(h).toLowerCase();
+  if(SIGS.some(s=>txt.includes(s)))r.push('r_sig');
+  if(PIRATE.test(n))r.push('r_pirate');
+  return r;
+}
+function ask(name,reasons){
+  return new Promise(res=>{
+    $('#mfn').textContent=name;
+    $('#mrs').innerHTML=reasons.map(r=>'<li>'+esc(t(r))+'</li>').join('');
+    const m=$('#md');m.hidden=false;
+    const end=v=>{m.hidden=true;$('#bA').onclick=$('#bS').onclick=m.onclick=null;res(v)};
+    $('#bA').onclick=()=>end('accept');$('#bS').onclick=()=>end('save');
+    m.onclick=e=>{if(e.target===m)end('accept')};
+  });
+}
+async function fake(size){
+  const ms=Math.min(2500,500+size/(2*1024*1024)*100),t0=performance.now();
+  for(;;){const p=Math.min(1,(performance.now()-t0)/ms);$('#pg').style.width=p*100+'%';if(p>=1)break;await new Promise(r=>requestAnimationFrame(r))}
+}
+async function handle(files){
+  if(busy)return;busy=true;
+  for(const f of files){
+    const r=await scan(f);let flag=false;
+    if(r.length){if(await ask(f.name,r)==='accept'){say(t('blocked')+': '+f.name);continue}flag=true}
+    if(used()+f.size>quota()){say(t('no_space')+': '+f.name);continue}
+    await fake(f.size);
+    /* simulación: solo se guarda nombre/tamaño; tu archivo original no se toca */
+    S.files.push({id:String(Date.now())+Math.random().toString(36).slice(2),name:f.name,size:f.size,date:Date.now(),flag});
+    save();render();say(t('saved')+': '+f.name);
+  }
+  busy=false;$('#pg').style.width='0';
+}
+
+LANGS.forEach(([c,n])=>{const o=document.createElement('option');o.value=c;o.textContent=n;$('#lg').appendChild(o)});
+$('#lg').onchange=e=>{S.lang=e.target.value;save();applyLang()};
+$('#f19').onchange=e=>{
+  if(!e.target.checked&&used()>BASE){e.target.checked=true;say(t('no_space'));return}
+  S.free19=e.target.checked;save();render();
+};
+$('#up').onclick=()=>$('#fi').click();
+$('#dz').onclick=()=>$('#fi').click();
+$('#fi').onchange=e=>{handle([...e.target.files]);e.target.value=''};
+const dz=$('#dz');
+['dragenter','dragover'].forEach(v=>dz.addEventListener(v,e=>{e.preventDefault();dz.classList.add('on')}));
+['dragleave','drop'].forEach(v=>dz.addEventListener(v,e=>{e.preventDefault();dz.classList.remove('on')}));
+dz.addEventListener('drop',e=>handle([...e.dataTransfer.files]));
+$('#list').onclick=e=>{
+  const b=e.target.closest('.x');if(!b)return;
+  if(!confirm(t('confirm_delete')))return;
+  S.files=S.files.filter(f=>f.id!==b.dataset.id);save();render();
+};
+applyLang();
+</script>
+</body>
+</html>
