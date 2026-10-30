@@ -79,6 +79,3 @@ Los términos pueden actualizarse. La versión vigente será la que indique la f
 
 Estos términos se rigen por las leyes de **[Mexico]**. Para dudas sobre ellos, escribe a: **[ikerdavidg07@gmail.com]**
 
----
-
-*Este documento es informativo y no constituye asesoría legal. Si publicas UpPack para otras personas, te conviene que un abogado lo revise según la ley que te aplique.*
